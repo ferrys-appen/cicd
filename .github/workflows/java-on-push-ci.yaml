@@ -68,11 +68,10 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run:
+        run: |
           mvn sonar:sonar \
-            -Dsonar.projectKey=ferrys-appen_java-app
-            -Dsonar.organization=ferrys-appen
-            -Dsonar.host.url=https://sonarcloud.io
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.branch.name=main
+            -Dsonar.projectKey=ferrys-appen_java-app \
+            -Dsonar.organization=ferrys-appen \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.branch.name=${{ github.ref_name }}
         working-directory: ${{ inputs.path }}
