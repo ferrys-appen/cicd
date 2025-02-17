@@ -72,6 +72,5 @@ jobs:
           mvn sonar:sonar \
             -Dsonar.projectKey=ferrys-appen_java-app \
             -Dsonar.organization=ferrys-appen \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.branch.name=${{ github.ref_name }}
+            -Dsonar.host.url=https://sonarcloud.io/
         working-directory: ${{ inputs.path }}
