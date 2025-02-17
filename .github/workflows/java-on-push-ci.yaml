@@ -30,8 +30,8 @@ jobs:
       - name: Validate JDK Distribution
         run: |
           case "${{ inputs.distribution }}" in
-            "adopt"|"zulu"|"corretto") echo "Valid JDK distribution: ${{ inputs.distribution }}" ;;
-            *) echo "Invalid JDK distribution: ${{ inputs.distribution }}. Allowed: adopt, zulu, corretto, etc." && exit 1 ;;
+            "temurin"|"adopt"|"zulu"|"corretto") echo "Valid JDK distribution: ${{ inputs.distribution }}" ;;
+            *) echo "Invalid JDK distribution: ${{ inputs.distribution }}. Allowed: temurin, adopt, zulu, corretto, etc." && exit 1 ;;
           esac
 
       - name: Validate JDK Version
