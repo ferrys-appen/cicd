@@ -1,0 +1,60 @@
+name: Java CI
+
+on:
+  workflow_call:
+    inputs:
+      path:
+        description: 'Directory where the Java project is located'
+        required: false
+        default: '.'
+        type: string
+
+      distribution:
+        description: 'JDK distribution to use (allowed: adopt, zulu, corretto, etc.)'
+        required: false
+        default: 'temurin'
+        type: string
+
+      jdk_version:
+        description: 'Java version to use (allowed: 8, 11, 17, 21)'
+        required: false
+        default: '17'
+        type: string
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate JDK Distribution
+        run: |
+          case "${{ inputs.distribution }}" in
+            "adopt"|"zulu"|"corretto") echo "Valid JDK distribution: ${{ inputs.distribution }}" ;;
+            *) echo "Invalid JDK distribution: ${{ inputs.distribution }}. Allowed: adopt, zulu, corretto, etc." && exit 1 ;;
+          esac
+
+      - name: Validate JDK Version
+        run: |
+          case "${{ inputs.jdk_version }}" in
+            "8"|"11"|"17"|"21") echo "Valid JDK version: ${{ inputs.jdk_version }}" ;;
+            *) echo "Invalid JDK version: ${{ inputs.jdk_version }}. Allowed: 8, 11, 17, 21" && exit 1 ;;
+          esac
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ inputs.distribution }}
+          java-version: ${{ inputs.jdk_version }}
+          cache: 'maven' # Use 'gradle' if you're using Gradle
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+        working-directory: ${{ inputs.path }}
+
+      - name: Run tests
+        run: mvn test
+        working-directory: ${{ inputs.path }}
