@@ -21,10 +21,6 @@ on:
         default: '17'
         type: string
 
-      sonar_token:
-        required: true
-        type: string  # Accept token as input
-
 jobs:
   build:
     name: Build and analyze
