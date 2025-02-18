@@ -21,6 +21,11 @@ on:
         default: '17'
         type: string
 
+      sq_project_key:
+        description: 'SonarQube project key'
+        required: true
+        type: string
+
 
 jobs:
   build:
@@ -68,4 +73,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ferrys-appen_java-app
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=${{inputs.sq_project_key}}
